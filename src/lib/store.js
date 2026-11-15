@@ -14,7 +14,12 @@ export function defaultState() {
     tablesSource: TABLES_SOURCE,
     tablesVerified: true,
     sessions: [], // { id, date, pullups, sprint, pushups, run, notes }
-    checklist: {} // { [itemId]: true }
+    checklist: {}, // { [itemId]: true }
+    writingDraft: null, // { promptId, customPrompt, text, startedAt, limitMin }
+    writingAttempts: [], // { id, date, promptId, title, text, words, secondsUsed, limitMin, ratings, factsHit, notes }
+    writingReviewId: null,
+    stories: [], // { id, title, comps[], situation, task, action, result }
+    interviewLog: [] // { id, date, qid, comp, rating, seconds }
   };
 }
 

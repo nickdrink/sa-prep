@@ -8,7 +8,7 @@ function fmt(ms) {
   return `${m}:${String(s).padStart(2, '0')}.${t}`;
 }
 
-function beep() {
+export function beep() {
   try {
     const ctx = new (window.AudioContext || window.webkitAudioContext)();
     [0, 0.35, 0.7].forEach((offset) => {
@@ -25,13 +25,19 @@ function beep() {
   navigator.vibrate?.([300, 150, 300]);
 }
 
-function useTick(active) {
+export function useTick(active, ms = 100) {
   const [, force] = useState(0);
   useEffect(() => {
     if (!active) return;
-    const id = setInterval(() => force((n) => n + 1), 100);
+    const id = setInterval(() => force((n) => n + 1), ms);
     return () => clearInterval(id);
-  }, [active]);
+  }, [active, ms]);
+}
+
+export function mmss(totalSec) {
+  const neg = totalSec < 0;
+  const t = Math.abs(Math.floor(totalSec));
+  return `${neg ? '−' : ''}${Math.floor(t / 60)}:${String(t % 60).padStart(2, '0')}`;
 }
 
 function Stopwatch() {

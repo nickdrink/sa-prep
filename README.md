@@ -3,7 +3,11 @@
 A free, installable web app (PWA) for preparing for the FBI Special Agent process:
 
 - **PFT tracker**: log pull-ups, 300 m sprint, push-ups and 1.5 mile run; points per event, pass check, trend charts.
-- **Timer**: stopwatch with laps, plus a rest countdown (the real test allows at most 5 minutes between events).
+- **Timers** (inside PFT): stopwatch with laps, plus a rest countdown (the real test allows at most 5 minutes between events).
+- **Phase II → Writing test**: timed, original investigation-style scenarios; autosaving editor with word count;
+  key-fact checklist and 6-point self-rating rubric; "Copy for feedback" to paste into a chat with Claude.
+- **Phase II → Interview**: STAR story bank tagged to the 9 FBI core competencies with coverage gaps highlighted;
+  practice mode with random behavioral questions, an answer timer and self-ratings.
 - **Steps**: checklist from "before you apply" through the Academy.
 - **Settings**: goals, editable PFT scoring tables, backup export/import.
 

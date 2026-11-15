@@ -1,6 +1,8 @@
 import { EVENTS, CHECKLIST } from '../data/defaults.js';
 import { formatValue, goalProgress, scoreSession } from '../lib/scoring.js';
 import Verdict from './Verdict.jsx';
+import { COMPETENCIES } from '../data/phase2.js';
+import { avgRating } from './Writing.jsx';
 
 export default function Dashboard({ state, go }) {
   const { profile, sessions, goals, tables, checklist } = state;
@@ -23,6 +25,11 @@ export default function Dashboard({ state, go }) {
   const allItems = CHECKLIST.flatMap((st) => st.items.map((i) => ({ ...i, stage: st.stage })));
   const doneCount = allItems.filter((i) => checklist[i.id]).length;
   const nextItem = allItems.find((i) => !checklist[i.id]);
+
+  const covered = COMPETENCIES.filter((c) => state.stories.some((s) => s.comps.includes(c.id))).length;
+  const lastAttempt = state.writingAttempts[state.writingAttempts.length - 1];
+  const lastAvg = lastAttempt ? avgRating(lastAttempt.ratings) : null;
+  const lastWriting = lastAvg ? `${lastAvg.toFixed(1)}/5` : null;
 
   let daysLeft = null;
   if (profile.targetDate) {
@@ -83,6 +90,25 @@ export default function Dashboard({ state, go }) {
             );
           })}
         </ul>
+      </section>
+
+      <section className="card">
+        <h2>Phase II prep</h2>
+        <div className="p2-grid">
+          <button className="stat" onClick={() => go('writing')}>
+            <span className="stat-num">{state.writingAttempts.length}</span>
+            <span className="stat-label">writing attempts</span>
+            {lastWriting && <span className="muted small">last {lastWriting}</span>}
+          </button>
+          <button className="stat" onClick={() => go('interview')}>
+            <span className="stat-num">{covered}/{COMPETENCIES.length}</span>
+            <span className="stat-label">competencies with a STAR story</span>
+          </button>
+          <button className="stat" onClick={() => go('interview')}>
+            <span className="stat-num">{state.interviewLog.length}</span>
+            <span className="stat-label">interview answers practiced</span>
+          </button>
+        </div>
       </section>
 
       <section className="card">
