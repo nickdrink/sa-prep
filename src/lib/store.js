@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { STARTER_TABLES, DEFAULT_GOALS } from '../data/defaults.js';
+import { OFFICIAL_TABLES, TABLES_SOURCE, DEFAULT_GOALS } from '../data/defaults.js';
 
 // All data lives in this browser's localStorage. Nothing is sent to a server.
 // Use Settings → Export / Import to move data between devices.
@@ -10,18 +10,31 @@ export function defaultState() {
     version: 1,
     profile: { gender: 'male', targetDate: '' },
     goals: structuredClone(DEFAULT_GOALS),
-    tables: structuredClone(STARTER_TABLES),
-    tablesVerified: false,
+    tables: structuredClone(OFFICIAL_TABLES),
+    tablesSource: TABLES_SOURCE,
+    tablesVerified: true,
     sessions: [], // { id, date, pullups, sprint, pushups, run, notes }
     checklist: {} // { [itemId]: true }
   };
+}
+
+// Older saves carry the unverified starter tables. Swap in the official tables
+// unless the user had already entered and confirmed their own.
+export function migrate(data) {
+  const merged = { ...defaultState(), ...data };
+  if (data.tablesSource !== TABLES_SOURCE && !data.tablesVerified) {
+    merged.tables = structuredClone(OFFICIAL_TABLES);
+    merged.tablesSource = TABLES_SOURCE;
+    merged.tablesVerified = true;
+  }
+  return merged;
 }
 
 function load() {
   try {
     const raw = localStorage.getItem(KEY);
     if (!raw) return defaultState();
-    return { ...defaultState(), ...JSON.parse(raw) };
+    return migrate(JSON.parse(raw));
   } catch {
     return defaultState();
   }
@@ -55,7 +68,7 @@ export async function importJson(file) {
   if (!data || typeof data !== 'object' || !Array.isArray(data.sessions)) {
     throw new Error('That file is not an SA Prep backup.');
   }
-  return { ...defaultState(), ...data };
+  return migrate(data);
 }
 
 export const newId = () => Math.random().toString(36).slice(2, 10) + Date.now().toString(36);

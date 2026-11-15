@@ -9,11 +9,11 @@ A free, installable web app (PWA) for preparing for the FBI Special Agent proces
 
 All data stays in your browser (localStorage). No account, no server, no cost.
 
-## ⚠️ Enter the official scoring tables
+## Scoring tables
 
-The app ships with **unverified starter tables** that only contain reported 1-point minimums.
-Download the official **PFT Self-Evaluation Form** from fbijobs.gov and enter every row in
-*Settings → Scoring tables*, then tick "I've entered the official FBI tables".
+Scoring uses the official scales from the FBI **PFT Self-Evaluation Form** (fbijobs.gov, last updated
+May 2026), including the −2 point rows. They live in `src/data/defaults.js` and can be edited in
+*Settings → Scoring tables* if the FBI publishes new scales.
 
 ## Run it on this computer
 

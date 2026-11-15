@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react';
-import { EVENTS, STARTER_TABLES } from '../data/defaults.js';
+import { EVENTS, OFFICIAL_TABLES, TABLES_SOURCE } from '../data/defaults.js';
 import { formatValue, parseTime } from '../lib/scoring.js';
 import { defaultState, exportJson, importJson } from '../lib/store.js';
 
@@ -128,20 +128,16 @@ export default function Settings({ state, setState }) {
       <section className="card">
         <h2>Scoring tables ({g})</h2>
         <p className="small">
-          Starter tables hold only the reported <strong>1-point minimums</strong> from a third-party source.
-          Get the official <em>PFT Self-Evaluation Form</em> from fbijobs.gov and enter every row here.
+          Loaded from the <strong>{TABLES_SOURCE}</strong>. If the FBI publishes new scales, edit the rows
+          below. The highest-points row you meet is your score. Rows set to 0 reps or 99:59 / 999 s catch every result
+          (the −2 rows).
         </p>
-        <label className="check">
-          <input type="checkbox" checked={state.tablesVerified}
-            onChange={(e) => setState((s) => ({ ...s, tablesVerified: e.target.checked }))} />
-          <span>I’ve entered the official FBI tables</span>
-        </label>
         <TableEditor key={g} state={state} setState={setState} gender={g} />
         <button className="btn small danger" onClick={() => {
-          if (confirm(`Reset the ${g} tables to the starter values?`)) {
-            setState((s) => ({ ...s, tablesVerified: false, tables: { ...s.tables, [g]: structuredClone(STARTER_TABLES[g]) } }));
+          if (confirm(`Reset the ${g} tables to the official FBI values?`)) {
+            setState((s) => ({ ...s, tablesSource: TABLES_SOURCE, tables: { ...s.tables, [g]: structuredClone(OFFICIAL_TABLES[g]) } }));
           }
-        }}>Reset {g} tables</button>
+        }}>Reset {g} tables to official</button>
       </section>
 
       <section className="card">

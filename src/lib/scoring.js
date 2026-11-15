@@ -38,12 +38,12 @@ export function scoreEvent(eventId, value, table) {
   if (value === null || value === undefined || value === '') return null;
   const ev = eventById(eventId);
   const rows = table?.[eventId] ?? [];
-  let best = 0;
+  let best = null;
   for (const row of rows) {
     const ok = ev.kind === 'time' ? value <= row.value : value >= row.value;
-    if (ok && row.points > best) best = row.points;
+    if (ok && (best === null || row.points > best)) best = row.points;
   }
-  return best;
+  return best ?? 0; // result worse than every row in a custom table
 }
 
 export function maxPointsInTables(table) {
