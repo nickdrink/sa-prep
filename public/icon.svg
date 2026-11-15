@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <rect width="512" height="512" rx="96" fill="#0f1e3a"/>
+  <path d="M256 92 L300 196 L412 204 L326 276 L354 386 L256 326 L158 386 L186 276 L100 204 L212 196 Z" fill="#d4a62a"/>
+  <text x="256" y="462" font-family="Segoe UI, Arial, sans-serif" font-size="64" font-weight="700" fill="#ffffff" text-anchor="middle">SA PREP</text>
+</svg>
